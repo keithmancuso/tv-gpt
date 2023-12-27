@@ -5,6 +5,9 @@ import { Input } from '@/components/input'
 import { useState } from 'react'
 import { PlusIcon } from '@heroicons/react/20/solid'
 
+import { createShow } from '@/app/lib/actions';
+
+
 
 export default function Example() {
   let [isOpen, setIsOpen] = useState(false)
@@ -17,8 +20,9 @@ export default function Example() {
       </Button>
       <Dialog open={isOpen} onClose={setIsOpen}>
         <DialogTitle>Add a new show</DialogTitle>
-     
+        <form action={createShow}>
         <DialogBody>
+          
             <FieldGroup>
           <Field>
             <Label>Name</Label>
@@ -29,13 +33,15 @@ export default function Example() {
             <Input name="app" />
           </Field>
           </FieldGroup>
+         
         </DialogBody>
         <DialogActions>
-          <Button plain onClick={() => setIsOpen(false)}>
+          <Button  plain onClick={() => setIsOpen(false)}>
             Cancel
           </Button>
-          <Button onClick={() => setIsOpen(false)}>Add</Button>
+          <Button type='submit' onClick={() => setIsOpen(false)}>Add</Button>
         </DialogActions>
+        </form>
       </Dialog>
     </>
   )

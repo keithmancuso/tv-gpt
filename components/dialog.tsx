@@ -12,6 +12,7 @@ import type React from 'react'
 import { Fragment } from 'react'
 import { Text } from './text'
 
+
 const sizes = {
   xs: 'sm:max-w-xs',
   sm: 'sm:max-w-sm',
