@@ -5,6 +5,8 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { PlusIcon } from '@heroicons/react/20/solid'
 import NewBtn from '@/components/new'
+import Image from 'next/image'
+
 
 
 const navigation = [
@@ -39,11 +41,17 @@ export default function Example() {
                   </Disclosure.Button>
                 </div>
                 <div className="flex flex-shrink-0 items-center">
-                  <img
-                    className="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                    alt="Your Company"
-                  />
+               
+
+                    <Image
+                        src="/logo.png"
+                        width={32}
+                        height={32}
+                        className="h-8 w-auto rounded-full"
+                        alt="TV GPT"
+                        />
+
+
                 </div>
                 <div className="hidden md:ml-6 md:flex md:items-center md:space-x-4">
                   {navigation.map((item) => (
