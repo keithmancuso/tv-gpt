@@ -7,9 +7,13 @@ import { XMarkIcon } from '@heroicons/react/24/solid'
 
 
 
-const shows = await fetchWatching();
 
-export default function Home() {
+
+export default async function Home() {
+
+  const shows = await fetchWatching();
+
+
   return (
     <>
     <h1 className="text-3xl text-center my-4">Watching</h1>
