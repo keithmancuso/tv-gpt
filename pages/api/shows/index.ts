@@ -3,7 +3,7 @@ import { sql } from '@vercel/postgres';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
-    const { rows: shows } = await sql`SELECT name, app, status FROM shows`;
+    const { rows: shows } = await sql`SELECT id, name, app, status FROM shows`;
     res.status(200).json({ shows });
   } else if (req.method === 'POST') {
     const { name, app, status } = req.body;
