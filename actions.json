@@ -1,0 +1,99 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+      "title": "My shows",
+      "description": "Retrieves data about the shows i've watched, am interested in, and most importantly what i'm currently watching.",
+      "version": "v1.0.0"
+    },
+    "servers": [
+      {
+        "url": "https://tv-gpt.vercel.app/api"
+      }
+    ],
+    "paths": {
+      "/shows": {
+        "get": {
+          "description": "Get list of all my shows",
+          "operationId": "GetCurrentShows",
+          "deprecated": false
+        },
+        "post": {
+          "description": "Add a new show to the list",
+          "operationId": "AddNewShow",
+          "parameters": [
+            {
+              "name": "name",
+              "in": "body",
+              "description": "the name of the new show",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "app",
+              "in": "body",
+              "description": "The app where the new show is available",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "status",
+              "in": "body",
+              "description": "The status of the show, either Watching, Next, Watched or Abandoned if I gave up on it before the end",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "deprecated": false
+        }
+      },
+      "/shows/{id}": {
+        "put": {
+            "description": "Update a show in the list",
+            "operationId": "UpdateShow",
+            "parameters": [
+                {
+                  "name": "name",
+                  "in": "body",
+                  "description": "the name of the new show",
+                  "required": false,
+                  "schema": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "name": "app",
+                  "in": "body",
+                  "description": "The app where the new show is available",
+                  "required": false,
+                  "schema": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "name": "status",
+                  "in": "body",
+                  "description": "The status of the show, either Watching, Next, Watched or Abandoned if I gave up on it before the end",
+                  "required": false,
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              ]
+        },
+        "delete": {
+            "description": "Remove a new show from the list",
+            "operationId": "DeleteShow"
+        }
+
+      }
+    },
+    "components": {
+      "schemas": {}
+    }
+  }
