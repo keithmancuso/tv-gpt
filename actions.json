@@ -2,7 +2,7 @@
     "openapi": "3.1.0",
     "info": {
       "title": "My shows",
-      "description": "Retrieves data about the shows i've watched, am interested in, and most importantly what i'm currently watching.",
+      "description": "Retrieves data about the shows i've watched, am interested in, and most importantly what i'm currently watching. Statuses can be either Watching, Next, Watched, Loved or Abandoned if I gave up on it before the end",
       "version": "v1.0.0"
     },
     "servers": [
@@ -16,6 +16,17 @@
           "description": "Get list of all my shows",
           "operationId": "GetCurrentShows",
           "deprecated": false
+          "parameters": [
+            {
+              "name": "status",
+              "in": "query",
+              "description": "The status of the shows to include",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ]
         },
         "post": {
           "description": "Add a new show to the list",
@@ -42,7 +53,7 @@
             {
               "name": "status",
               "in": "body",
-              "description": "The status of the show, either Watching, Next, Watched or Abandoned if I gave up on it before the end",
+              "description": "The status of the show",
               "required": true,
               "schema": {
                 "type": "string"
@@ -78,7 +89,7 @@
                 {
                   "name": "status",
                   "in": "body",
-                  "description": "The status of the show, either Watching, Next, Watched or Abandoned if I gave up on it before the end",
+                  "description": "The status of the show",
                   "required": false,
                   "schema": {
                     "type": "string"
