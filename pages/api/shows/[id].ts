@@ -11,8 +11,29 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     if (req.method === 'PUT') {
-        const { title, app, status } = req.body;
-        await sql`UPDATE shows SET title = ${title}, app = ${app}, status = ${status} WHERE id = ${id}`;
+        const { name, title, app, status, rating, review, favorite } = req.body;
+
+        
+        let fields="";
+        if (title) {
+            fields += `SET title = ${title}`
+        }
+        if (app) {
+            fields += `SET app = ${app}`
+        }
+        if (status) {
+            fields += `SET status = ${status}`
+        }
+        if (rating) {
+            fields += `SET rating = ${rating}`
+        }
+        if (review) {
+            fields += `SET review = ${review}`
+        }
+        if (favorite) {
+            fields += `SET favorite = ${favorite}`
+        }
+        await sql`UPDATE shows `+fields + `WHERE id = ${id}`;
         res.status(200).json({ message: 'Show updated' });
     } else if (req.method === 'DELETE') {
         await sql`DELETE FROM shows WHERE id = ${id}`;
