@@ -53,6 +53,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     await sql`DELETE FROM shows WHERE id = ${idNumber}`;
     res.status(200).json({ message: 'Show deleted' });
   } else {
-    res.status(405).json({ message: 'Method not allowed' });
+    res.status(405).json({ message: 'Method not allowed', request: req });
   } 
 }
