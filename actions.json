@@ -2,7 +2,7 @@
     "openapi": "3.1.0",
     "info": {
       "title": "My shows",
-      "description": "Retrieves data about the shows i've watched, am interested in, and most importantly what i'm currently watching. Statuses can be either Watching, Next, Watched, Loved or Abandoned if I gave up on it before the end",
+      "description": "Retrieves and updates about my shows. Viewing statuses include Watching, Next, Watched, and Nope",
       "version": "v1.0.0"
     },
     "servers": [
@@ -13,15 +13,15 @@
     "paths": {
       "/shows": {
         "get": {
-          "description": "Get list of all my shows",
+          "description": "Get list of my shows",
           "operationId": "GetCurrentShows",
-          "deprecated": false
+          "deprecated": false,
           "parameters": [
             {
               "name": "status",
               "in": "query",
-              "description": "The status of the shows to include",
-              "required": true,
+              "description": "The viewing status of the shows to include, only accepts Watching, Next, Watched, and Nope. Exclude this parameter to return the full list",
+              "required": false,
               "schema": {
                 "type": "string"
               }
@@ -35,7 +35,7 @@
             {
               "name": "name",
               "in": "body",
-              "description": "the name of the new show",
+              "description": "The name of the show",
               "required": true,
               "schema": {
                 "type": "string"
@@ -44,7 +44,7 @@
             {
               "name": "app",
               "in": "body",
-              "description": "The app where the new show is available",
+              "description": "The streaming app its on",
               "required": true,
               "schema": {
                 "type": "string"
@@ -53,10 +53,42 @@
             {
               "name": "status",
               "in": "body",
-              "description": "The status of the show",
+              "description": "My viewing status of the show. Accepts: Watching, Next, Watched, and Nope",
               "required": true,
               "schema": {
-                "type": "string"
+                "type": "string",
+                "default": "Next"
+              }
+            },
+            {
+              "name": "rating",
+              "in": "body",
+              "description": "What did you think of the show?",
+              "required": false,
+              "schema": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 10
+              }
+            },
+            {
+              "name": "review",
+              "in": "body",
+              "description": "An ai generaged summary of your thoughts on the show.",
+              "required": false,
+              "schema": {
+                "type": "string",
+                "maxLength": 1024
+              },
+            },
+            {
+              "name": "favorite",
+              "in": "body",
+              "description": "Is it one of my favorite shows of all time?",
+              "required": false,
+              "schema": {
+                "type": "boolean",
+                "default": false
               }
             }
           ],
@@ -93,6 +125,38 @@
                   "required": false,
                   "schema": {
                     "type": "string"
+                  }
+                }
+                ,,
+                {
+                  "name": "rating",
+                  "in": "body",
+                  "description": "What did you think of the show?",
+                  "required": false,
+                  "schema": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 10
+                  }
+                },
+                {
+                  "name": "review",
+                  "in": "body",
+                  "description": "An ai generaged summary of your thoughts on the show.",
+                  "required": false,
+                  "schema": {
+                    "type": "string",
+                    "maxLength": 1024
+                  },
+                },
+                {
+                  "name": "favorite",
+                  "in": "body",
+                  "description": "Is it one of my favorite shows of all time?",
+                  "required": false,
+                  "schema": {
+                    "type": "boolean",
+                    "default": false
                   }
                 }
               ]
