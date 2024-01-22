@@ -21,6 +21,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(400).json({ message: 'Missing show ID' });
       return;
     }
+    const idNumber = parseInt(id, 10);
     
     let fields="";
     if (title) {
@@ -41,14 +42,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (favorite) {
         fields += `SET favorite = ${favorite}`
     }
-    await sql`UPDATE shows `+fields + `WHERE id = ${id}`;
+    await sql`UPDATE shows `+fields + `WHERE id = ${idNumber}`;
     res.status(200).json({ message: 'Show updated' });
   } else if (req.method === 'DELETE') {
     if (!id) {
       res.status(400).json({ message: 'Missing show ID' });
       return;
     } 
-    await sql`DELETE FROM shows WHERE id = ${id}`;
+    const idNumber = parseInt(id, 10);
+    await sql`DELETE FROM shows WHERE id = ${idNumber}`;
     res.status(200).json({ message: 'Show deleted' });
   } else {
     res.status(405).json({ message: 'Method not allowed' });
