@@ -17,7 +17,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   } else if (req.method === 'PUT') {
 
-        if (typeof id !== 'string') {
+        if (typeof id !== 'number') {
           res.status(400).json({ message: 'Invalid show ID' });
           return;
         }
@@ -44,7 +44,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         await sql`UPDATE shows `+fields + `WHERE id = ${id}`;
         res.status(200).json({ message: 'Show updated' });
     } else if (req.method === 'DELETE') {
-        if (typeof id !== 'string') {
+        if (typeof id !== 'number') {
           res.status(400).json({ message: 'Invalid show ID' });
           return;
         } 

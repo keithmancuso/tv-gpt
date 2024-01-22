@@ -82,16 +82,14 @@
             }
           ],
           "deprecated": false
-        }
-      },
-      "/shows/{id}": {
+        },
         "put": {
             "description": "Update a show in the list where the id is in the path of the call instead of the body",
             "operationId": "UpdateShow",
             "parameters": [
                 {
                     "name": "id",
-                    "in": "path",
+                    "in": "body",
                     "required": true,
                     "description": "Unique identifier of the show",
                     "schema": {
@@ -161,7 +159,18 @@
         },
         "delete": {
             "description": "Remove a new show from the list",
-            "operationId": "DeleteShow"
+            "operationId": "DeleteShow",
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "body",
+                    "required": true,
+                    "description": "Unique identifier of the show",
+                    "schema": {
+                      "type": "integer"
+                    }
+                  }
+            ]
         }
 
       }
