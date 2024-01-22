@@ -5,6 +5,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const { id, name, title, app, status, rating, review, favorite } = req.body;
 
+  const fieldsToUpdate = ['name', 'title', 'app', 'status', 'rating', 'review', 'favorite'];
+
   if (req.method === 'GET') {
     const status = typeof req.query.status === 'string' ? req.query.status : undefined;
     const { rows: shows } = status
@@ -16,33 +18,31 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(201).json({ message: 'Show added' });
 
   } else if (req.method === 'PUT') {
-
     if (!id) {
       res.status(400).json({ message: 'Missing show ID' });
       return;
     }
+  
     const idNumber = parseInt(id, 10);
-    
-    let fields="";
-    if (title) {
-        fields += `SET title = ${title}`
+    if (isNaN(idNumber)) {
+      res.status(400).json({ message: 'Invalid show ID' });
+      return;
     }
-    if (app) {
-        fields += `SET app = ${app}`
+
+    let updates = [];
+    for (let key of fieldsToUpdate) {
+      if (key in req.body) {
+        updates.push(`${key} = '${req.body[key]}'`);
+      }
     }
-    if (status) {
-        fields += `SET status = ${status}`
+
+    if (updates.length === 0) {
+      res.status(400).json({ message: 'No fields to update' });
+      return;
     }
-    if (rating) {
-        fields += `SET rating = ${rating}`
-    }
-    if (review) {
-        fields += `SET review = ${review}`
-    }
-    if (favorite) {
-        fields += `SET favorite = ${favorite}`
-    }
-    await sql`UPDATE shows `+fields + `WHERE id = ${idNumber}`;
+    const updatesQuery = updates.join(', ');
+
+    await sql`UPDATE shows SET `+updatesQuery+` WHERE id = ${idNumber}`;
     res.status(200).json({ message: 'Show updated' });
   } else if (req.method === 'DELETE') {
     if (!id) {
