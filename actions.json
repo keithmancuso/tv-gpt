@@ -86,9 +86,18 @@
       },
       "/shows/{id}": {
         "put": {
-            "description": "Update a show in the list",
+            "description": "Update a show in the list where the id is in the path of the call instead of the body",
             "operationId": "UpdateShow",
             "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "Unique identifier of the show",
+                    "schema": {
+                      "type": "integer"
+                    }
+                  },
                 {
                   "name": "name",
                   "in": "body",
