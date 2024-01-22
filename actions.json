@@ -15,18 +15,7 @@
         "get": {
           "description": "Get list of my shows",
           "operationId": "GetCurrentShows",
-          "deprecated": false,
-          "parameters": [
-            {
-              "name": "status",
-              "in": "query",
-              "description": "The viewing status of the shows to include, only accepts Watching, Next, Watched, and Nope. Exclude this parameter to return the full list",
-              "required": false,
-              "schema": {
-                "type": "string"
-              }
-            }
-          ]
+          "deprecated": false
         },
         "post": {
           "description": "Add a new show to the list",
@@ -79,7 +68,7 @@
               "schema": {
                 "type": "string",
                 "maxLength": 1024
-              },
+              }
             },
             {
               "name": "favorite",
@@ -127,7 +116,7 @@
                     "type": "string"
                   }
                 }
-                ,,
+                ,
                 {
                   "name": "rating",
                   "in": "body",
@@ -147,7 +136,7 @@
                   "schema": {
                     "type": "string",
                     "maxLength": 1024
-                  },
+                  }
                 },
                 {
                   "name": "favorite",
