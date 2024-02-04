@@ -13,17 +13,17 @@ const notion = new Client({
 
 export default async function handler(req, res) {
     // Extract name, app, and status from the request body
-    const { id, app, status,rating } = req.body;
+    const { id, app, status,rating, score } = req.body;
   
     try {
     
     
 
         // Prepare the properties to update
-        const propertiesToUpdate = {};
+        let properties = {};
 
         if (app) {
-            propertiesToUpdate.App = {
+            properties.App = {
                 select: {
                     name: app,
                 },
@@ -31,7 +31,7 @@ export default async function handler(req, res) {
         }
 
         if (status) {
-            propertiesToUpdate.Status = {
+            properties.Status = {
                 select: {
                     name: status,
                 },
@@ -39,15 +39,22 @@ export default async function handler(req, res) {
         }
 
         if (rating) {
-            propertiesToUpdate.Rating = {
+            properties.Rating = {
                 number: parseInt(rating),
             };
         }
 
+        if (score) {
+            properties.Score = {
+                number: parseInt(score),
+            };
+        }
+
+
         // Update the page in the database
         await notion.pages.update({
             page_id: id,
-            properties: propertiesToUpdate,
+            properties: properties,
         });
 
     
