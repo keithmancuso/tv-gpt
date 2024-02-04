@@ -44,6 +44,7 @@ export default async function handler(req, res) {
         App: page.properties.App?.select?.name || 'Unknown App',
         Status: page.properties.Status?.select?.name || 'Up Next',
         Rating: page.properties.Rating?.number || null,
+        Score: page.properties.Score?.number || null,
       };
     });
 
