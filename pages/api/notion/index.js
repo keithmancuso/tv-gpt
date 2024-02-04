@@ -2,12 +2,14 @@
 
 const { Client } = require('@notionhq/client');
 
+const notionToken = process.env.NOTION_TOKEN; // Your Notion API token also stored as an environment variable
+const databaseId = process.env.WATCHING_DATABASE; // Your Notion Database ID also stored as an environment variable
+
 // Initializing a client
 const notion = new Client({
-  auth: process.env.NOTION_TOKEN, // Make sure to add your Notion token to your environment variables
+  auth: notionToken, // Make sure to add your Notion token to your environment variables
 });
 
-const databaseId = process.env.WATCHING_DATABASE; // Your Notion Database ID also stored as an environment variable
 
 export default async function handler(req, res) {
 
@@ -57,6 +59,6 @@ export default async function handler(req, res) {
 
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Failed to query Notion database' });
+    res.status(500).json({ error: 'Failed to query Notion database:'+databaseId+' with this token:'+notionToken });
   }
 }
