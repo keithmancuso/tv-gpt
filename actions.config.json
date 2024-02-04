@@ -7,15 +7,16 @@
     },
     "servers": [
       {
-        "url": "https://tv-gpt.vercel.app/api"
+        "url": "https://tv-gpt.vercel.app/api/notion"
       }
     ],
     "paths": {
-      "/notion": {
+      "/": {
         "get": {
           "description": "Get list of my shows",
           "operationId": "GetCurrentShows"
         },
+      "/add": {
         "post": {
           "description": "Add a new show to the list",
           "operationId": "AddNewShow",
@@ -45,133 +46,11 @@
               "required": true,
               "schema": {
                 "type": "string",
-                "default": "Next"
-              }
-            },
-            {
-              "name": "rating",
-              "in": "body",
-              "description": "What did you think of the show?",
-              "required": false,
-              "schema": {
-                "type": "integer",
-                "minimum": 1,
-                "maximum": 10
-              }
-            },
-            {
-              "name": "review",
-              "in": "body",
-              "description": "An ai generaged summary of your thoughts on the show.",
-              "required": false,
-              "schema": {
-                "type": "string",
-                "maxLength": 1024
-              }
-            },
-            {
-              "name": "favorite",
-              "in": "body",
-              "description": "Is it one of my favorite shows of all time?",
-              "required": false,
-              "schema": {
-                "type": "boolean",
-                "default": false
+                "default": "Up Next"
               }
             }
-          ],
-          "deprecated": false
-        },
-        "put": {
-            "description": "Update a show in the list where the id is in the path of the call instead of the body",
-            "operationId": "UpdateShow",
-            "parameters": [
-                {
-                    "name": "id",
-                    "in": "body",
-                    "required": true,
-                    "description": "Unique identifier of the show",
-                    "schema": {
-                      "type": "integer"
-                    }
-                  },
-                {
-                  "name": "name",
-                  "in": "body",
-                  "description": "the name of the new show",
-                  "required": false,
-                  "schema": {
-                    "type": "string"
-                  }
-                },
-                {
-                  "name": "app",
-                  "in": "body",
-                  "description": "The app where the new show is available",
-                  "required": false,
-                  "schema": {
-                    "type": "string"
-                  }
-                },
-                {
-                  "name": "status",
-                  "in": "body",
-                  "description": "The status of the show",
-                  "required": false,
-                  "schema": {
-                    "type": "string"
-                  }
-                }
-                ,
-                {
-                  "name": "rating",
-                  "in": "body",
-                  "description": "What did you think of the show?",
-                  "required": false,
-                  "schema": {
-                    "type": "integer",
-                    "minimum": 1,
-                    "maximum": 10
-                  }
-                },
-                {
-                  "name": "review",
-                  "in": "body",
-                  "description": "An ai generaged summary of your thoughts on the show.",
-                  "required": false,
-                  "schema": {
-                    "type": "string",
-                    "maxLength": 1024
-                  }
-                },
-                {
-                  "name": "favorite",
-                  "in": "body",
-                  "description": "Is it one of my favorite shows of all time?",
-                  "required": false,
-                  "schema": {
-                    "type": "boolean",
-                    "default": false
-                  }
-                }
-              ]
-        },
-        "delete": {
-            "description": "Remove a new show from the list",
-            "operationId": "DeleteShow",
-            "parameters": [
-                {
-                    "name": "id",
-                    "in": "body",
-                    "required": true,
-                    "description": "Unique identifier of the show",
-                    "schema": {
-                      "type": "integer"
-                    }
-                  }
-            ]
+          ]
         }
-
       }
     },
     "components": {
