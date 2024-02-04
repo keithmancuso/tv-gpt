@@ -65,7 +65,7 @@
             "name": "score",
             "in": "body",
             "description": "The official rotten tomatoes score of the show 1-100, if you dont know it look it up on the web before inserting a new show",
-            "required": false,
+            "required": true,
             "schema": {
               "type": "integer",
               "minimum": 1,
