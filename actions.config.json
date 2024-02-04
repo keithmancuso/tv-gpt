@@ -1,59 +1,104 @@
 {
-    "openapi": "3.1.0",
-    "info": {
-      "title": "My shows",
-      "description": "Retrieves and updates about my shows. Viewing statuses include Watching, Next, Watched, and Nope",
-      "version": "v1.0.0"
-    },
-    "servers": [
-      {
-        "url": "https://tv-gpt.vercel.app/api/notion"
+  "openapi": "3.1.0",
+  "info": {
+    "title": "My shows",
+    "description": "Retrieves and updates about my shows. Viewing statuses include Watching, Next, Watched, and Nope",
+    "version": "v1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://tv-gpt.vercel.app/api/notion"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "description": "Get list of my shows",
+        "operationId": "GetCurrentShows"
       }
-    ],
-    "paths": {
-      "/": {
-        "get": {
-          "description": "Get list of my shows",
-          "operationId": "GetCurrentShows"
-        },
-      "/add": {
-        "post": {
-          "description": "Add a new show to the list",
-          "operationId": "AddNewShow",
-          "parameters": [
-            {
-              "name": "name",
-              "in": "body",
-              "description": "The name of the show",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
-            },
-            {
-              "name": "app",
-              "in": "body",
-              "description": "The streaming app its on",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
-            },
-            {
-              "name": "status",
-              "in": "body",
-              "description": "My viewing status of the show. Accepts: Watching, Next, Watched, and Nope",
-              "required": true,
-              "schema": {
-                "type": "string",
-                "default": "Up Next"
-              }
+    },
+    "/add": {
+      "post": {
+        "description": "Add a new show to the list",
+        "operationId": "AddNewShow",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "body",
+            "description": "The name of the show",
+            "required": true,
+            "schema": {
+              "type": "string"
             }
-          ]
-        }
+          },
+          {
+            "name": "app",
+            "in": "body",
+            "description": "The streaming app its on",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "body",
+            "description": "The status of the show either Watching, Up Next, or Watched",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "Up Next"
+            }
+          }
+        ]
       }
     },
-    "components": {
-      "schemas": {}
+    "/update": {
+      "post": {
+        "description": "Update a new show to the list",
+        "operationId": "AddNewShow",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "body",
+            "description": "The id of the show, if you dont know it gete the list of shows first",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "app",
+            "in": "body",
+            "description": "The streaming app its on",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "body",
+            "description": "The status of the show either Watching, Up Next, or Watched",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Up Next"
+            }
+          },
+          {
+            "name": "rating",
+            "in": "body",
+            "description": "My personal rating of the show 1-10",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10
+            }
+          }
+        ]
+      }
     }
   }
+}

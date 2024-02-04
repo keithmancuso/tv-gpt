@@ -22,7 +22,10 @@ export default async function handler(req, res) {
       database_id: databaseId,
     };
 
+
     if (status) {
+
+   
       query.filter = {
         property: 'Status',
         select: {
@@ -36,9 +39,11 @@ export default async function handler(req, res) {
     // Process and simplify the results
     const simplifiedResults = response.results.map((page) => {
       return {
+        Id: page.id,
         Name: page.properties.Name.title[0]?.plain_text || 'No Name',
-        App: page.properties.App?.select?.name || 'No App',
-        Status: page.properties.Status?.select?.name || 'No Status'
+        App: page.properties.App?.select?.name || 'Unknown App',
+        Status: page.properties.Status?.select?.name || 'Up Next',
+        Rating: page.properties.Rating?.number || null,
       };
     });
 
@@ -64,10 +69,10 @@ export default async function handler(req, res) {
       return acc;
     }, {});
 
-    res.status(200).json(groupedResults);
+    res.status(200).json(response.results);
 
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Failed to query Notion database:'+databaseId+' with this token:'+notionToken });
+    res.status(500).json({ error: 'Failed to query Notion database'});
   }
 }
