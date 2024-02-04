@@ -1,7 +1,6 @@
-// pages/api/queryNotion.ts
+// pages/api/queryNotion.js
 
-import { Client } from '@notionhq/client';
-import type { NextApiRequest, NextApiResponse } from 'next';
+const { Client } = require('@notionhq/client');
 
 // Initializing a client
 const notion = new Client({
@@ -10,17 +9,14 @@ const notion = new Client({
 
 const databaseId = process.env.WATCHING_DATABASE; // Your Notion Database ID also stored as an environment variable
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export default async function handler(req, res) {
 
-   // Extract status from query parameters or default to 'Watching'
-   const { status } = req.body || {};
+  // Extract status from query parameters or default to 'Watching'
+  const { status } = req.body || {};
 
   try {
     // Construct the query with a condition for the status filter
-    const query: any = {
+    const query = {
       database_id: databaseId,
     };
 
@@ -35,10 +31,8 @@ export default async function handler(
 
     const response = await notion.databases.query(query);
 
-
-
-     // Process and simplify the results
-     const simplifiedResults = response.results.map((page) => {
+    // Process and simplify the results
+    const simplifiedResults = response.results.map((page) => {
       return {
         Name: page.properties.Name.title[0]?.plain_text || 'No Name',
         App: page.properties.App?.select?.name || 'No App',
@@ -46,20 +40,8 @@ export default async function handler(
       };
     });
 
-    // Define the type for a single result
-    interface Result {
-      Name: string;
-      App: string;
-      Status: string;
-    }
-
-    // Define the type for the grouped results
-    interface GroupedResults {
-      [key: string]: Result[];
-    }
-
     // Group the results by status
-    const groupedByStatus = simplifiedResults.reduce<GroupedResults>((acc, curr) => {
+    const groupedByStatus = simplifiedResults.reduce((acc, curr) => {
       // Use the status as the key for grouping
       const key = curr.Status;
       if (!acc[key]) {
@@ -70,7 +52,6 @@ export default async function handler(
       acc[key].push(curr);
       return acc;
     }, {});
-
 
     res.status(200).json(groupedByStatus);
 
