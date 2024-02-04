@@ -42,20 +42,29 @@ export default async function handler(req, res) {
       };
     });
 
-    // Group the results by status
-    const groupedByStatus = simplifiedResults.reduce((acc, curr) => {
-      // Use the status as the key for grouping
-      const key = curr.Status;
-      if (!acc[key]) {
-        acc[key] = [];
+    // Group the results by status and then by app
+    const groupedResults = simplifiedResults.reduce((acc, curr) => {
+      // Use the status and app as the keys for grouping
+      const statusKey = curr.Status;
+      const appKey = curr.App;
+
+      if (!acc[statusKey]) {
+        acc[statusKey] = {};
       }
 
-      delete curr.Status; // Remove the status from the result
-      acc[key].push(curr);
+      if (!acc[statusKey][appKey]) {
+        acc[statusKey][appKey] = [];
+      }
+
+      // Remove the Status and App properties from the current object
+      delete curr.Status;
+      delete curr.App;
+
+      acc[statusKey][appKey].push(curr);
       return acc;
     }, {});
 
-    res.status(200).json(groupedByStatus);
+    res.status(200).json(groupedResults);
 
   } catch (error) {
     console.error(error);
