@@ -56,7 +56,7 @@
     "/update": {
       "post": {
         "description": "Update a new show to the list",
-        "operationId": "AddNewShow",
+        "operationId": "UpdateShow",
         "parameters": [
           {
             "name": "id",
