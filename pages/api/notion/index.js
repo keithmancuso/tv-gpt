@@ -39,8 +39,11 @@ export default async function handler(req, res) {
     // Process and simplify the results
     const simplifiedResults = response.results.map((page) => {
 
-      let icon = page.icon?.emoji + " " || null;
-      let name = icon + page.properties.Name.title[0]?.plain_text 
+      let icon = page.icon?.emoji || null;
+      let name = page.properties.Name.title[0]?.plain_text 
+
+      name = icon ? icon + ' ' + name : name;
+
 
       return {
         Id: page.id,
