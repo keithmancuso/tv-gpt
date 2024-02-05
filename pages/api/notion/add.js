@@ -13,29 +13,34 @@ const notion = new Client({
 
 export default async function handler(req, res) {
     // Extract name, app, and status from the request body
-    const { name, app, status, rating, score } = req.body;
+    const { name, app, status, rating, score, emoji } = req.body;
   
     try {
 
-        let properties = { 
-            Name: {
-                title: [
-                {
-                    text: {
-                        content: name,
-                    },
-                },
-                ],
+        let body  = {
+            parent: { 
+                database_id: databaseId 
             },
-            App: {
-                select: {
-                    name: app,
+            properties: {
+                Name: {
+                    title: [
+                    {
+                        text: {
+                            content: name,
+                        },
+                    },
+                    ],
                 },
+                App: {
+                    select: {
+                        name: app,
+                    },
+                }
             }
         };
 
         if (status) {
-            properties.Status = {
+            body.properties.Status = {
                 select: {
                     name: status,
                 },
@@ -43,22 +48,27 @@ export default async function handler(req, res) {
         }
 
         if (rating) {
-            properties.Rating = {
+            body.properties.Rating = {
                 number: parseInt(rating),
             };
         }
 
         if (score) {
-            properties.Score = {
+            body.properties.Score = {
                 number: parseInt(score),
             };
         }
 
+        if (emoji) {
+            body.icon = {
+                type:"emoji",
+                emoji: emoji,
+            };
+        }
+    
+
       // Create a new page in the database
-      await notion.pages.create({
-        parent: { database_id: databaseId },
-        properties: properties
-      });
+      await notion.pages.create(body);
   
       res.status(200).json({ message: 'Page successfully created' });
     } catch (error) {

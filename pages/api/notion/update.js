@@ -13,17 +13,20 @@ const notion = new Client({
 
 export default async function handler(req, res) {
     // Extract name, app, and status from the request body
-    const { id, app, status,rating, score } = req.body;
+    const { id, app, status,rating, score, emoji } = req.body;
   
     try {
     
     
 
         // Prepare the properties to update
-        let properties = {};
+        let body = {
+            page_id: id,
+            properties: {}
+        };
 
         if (app) {
-            properties.App = {
+            body.properties.App = {
                 select: {
                     name: app,
                 },
@@ -31,7 +34,7 @@ export default async function handler(req, res) {
         }
 
         if (status) {
-            properties.Status = {
+            body.properties.Status = {
                 select: {
                     name: status,
                 },
@@ -39,23 +42,28 @@ export default async function handler(req, res) {
         }
 
         if (rating) {
-            properties.Rating = {
+            body.properties.Rating = {
                 number: parseInt(rating),
             };
         }
 
         if (score) {
-            properties.Score = {
+            body.properties.Score = {
                 number: parseInt(score),
             };
         }
 
 
+        if (emoji) {
+            body.icon = {
+                type:"emoji",
+                emoji: emoji,
+            };
+        }
+       
+    
         // Update the page in the database
-        await notion.pages.update({
-            page_id: id,
-            properties: properties,
-        });
+        await notion.pages.update(body);
 
     
         res.status(200).json({ message: 'Page successfully updated' });
