@@ -38,13 +38,17 @@ export default async function handler(req, res) {
 
     // Process and simplify the results
     const simplifiedResults = response.results.map((page) => {
+
+      let icon = page.icon?.emoji + " " || null;
+      let name = icon + page.properties.Name.title[0]?.plain_text 
+
       return {
         Id: page.id,
-        Name: page.properties.Name.title[0]?.plain_text || 'No Name',
+        Name: name,
         App: page.properties.App?.select?.name || 'Unknown App',
         Status: page.properties.Status?.select?.name || 'Up Next',
         Rating: page.properties.Rating?.number || null,
-        Score: page.properties.Score?.number || null,
+        Score: page.properties.Score?.number || null
       };
     });
 

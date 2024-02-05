@@ -71,6 +71,15 @@
               "minimum": 1,
               "maximum": 100
             }
+          },
+          {
+            "name": "emoji",
+            "in": "body",
+            "description": "An emoji that represents the show",
+            "required": false,
+            "schema": {
+              "type": "emoji"
+            }
           }
         ]
       }
@@ -128,6 +137,15 @@
               "type": "integer",
               "minimum": 1,
               "maximum": 100
+            }
+          },
+          {
+            "name": "emoji",
+            "in": "body",
+            "description": "An emoji that represents the show",
+            "required": false,
+            "schema": {
+              "type": "emoji"
             }
           }
         ]
