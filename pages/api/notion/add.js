@@ -47,15 +47,15 @@ export default async function handler(req, res) {
             };
         }
 
-        if (rating) {
+        if (rating && Number.isInteger(parseInt(rating))) {
             body.properties.Rating = {
-                number: parseInt(rating),
+            number: parseInt(rating),
             };
         }
 
-        if (score) {
+        if (score && Number.isInteger(parseInt(score))) {
             body.properties.Score = {
-                number: parseInt(score),
+            number: parseInt(score),
             };
         }
 
