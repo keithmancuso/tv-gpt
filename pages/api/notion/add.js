@@ -68,9 +68,13 @@ export default async function handler(req, res) {
 
         if (notes) {
             body.properties.Notes = {
+            rich_text: [
+                {
                 text: {
                     content: notes,
                 },
+                },
+            ],
             };
         }
     
