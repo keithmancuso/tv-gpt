@@ -13,7 +13,7 @@ const notion = new Client({
 
 export default async function handler(req, res) {
     // Extract name, app, and status from the request body
-    const { id, app, status,rating, score, emoji } = req.body;
+    const { id, app, status,rating, score, emoji, notes } = req.body;
   
     try {
     
@@ -41,13 +41,13 @@ export default async function handler(req, res) {
             };
         }
 
-        if (rating) {
+        if (rating && Number.isInteger(parseInt(rating))) {
             body.properties.Rating = {
                 number: parseInt(rating),
             };
         }
 
-        if (score) {
+        if (score && Number.isInteger(parseInt(score))) {
             body.properties.Score = {
                 number: parseInt(score),
             };
@@ -58,6 +58,14 @@ export default async function handler(req, res) {
             body.icon = {
                 type:"emoji",
                 emoji: emoji,
+            };
+        }
+
+        if (notes) {
+            body.properties.Notes = {
+                text: {
+                    content: notes,
+                },
             };
         }
        

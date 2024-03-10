@@ -13,7 +13,7 @@
   "paths": {
     "/": {
       "get": {
-        "description": "Get list of my shows",
+        "description": "Get list of my shows with their statuses and your own notes on them",
         "operationId": "GetCurrentShows"
       }
     },
@@ -21,6 +21,7 @@
       "post": {
         "description": "Add a new show to the list",
         "operationId": "AddNewShow",
+        "x-openai-isConsequential": false,
         "parameters": [
           {
             "name": "name",
@@ -80,6 +81,15 @@
             "schema": {
               "type": "emoji"
             }
+          },
+          {
+            "name": "notes",
+            "in": "body",
+            "description": "Any notes about my feelings on this show that will help you make better recommendations in the future",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
           }
         ]
       }
@@ -88,6 +98,7 @@
       "post": {
         "description": "Update a new show to the list",
         "operationId": "UpdateShow",
+        "x-openai-isConsequential": false,
         "parameters": [
           {
             "name": "id",
@@ -146,6 +157,15 @@
             "required": false,
             "schema": {
               "type": "emoji"
+            }
+          },
+          {
+            "name": "notes",
+            "in": "body",
+            "description": "Any notes about my feelings on this show that will help you make better recommendations in the future",
+            "required": false,
+            "schema": {
+              "type": "string"
             }
           }
         ]

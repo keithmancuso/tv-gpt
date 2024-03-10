@@ -13,7 +13,7 @@ const notion = new Client({
 
 export default async function handler(req, res) {
     // Extract name, app, and status from the request body
-    const { name, app, status, rating, score, emoji } = req.body;
+    const { name, app, status, rating, score, emoji,notes } = req.body;
   
     try {
 
@@ -63,6 +63,14 @@ export default async function handler(req, res) {
             body.icon = {
                 type:"emoji",
                 emoji: emoji,
+            };
+        }
+
+        if (notes) {
+            body.properties.Notes = {
+                text: {
+                    content: notes,
+                },
             };
         }
     
