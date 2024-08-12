@@ -13,7 +13,7 @@ const notion = new Client({
 
 export default async function handler(req, res) {
     // Extract name, app, and status from the request body
-    const { name, app, status, rating, score, emoji,notes } = req.header;
+    const { name, app, status, rating, score, emoji,notes } = req.query;
   
     try {
 
