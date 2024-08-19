@@ -52,6 +52,36 @@ export default async function handler(req, res) {
     console.error('Access token or Database ID is undefined or null');
     }
 
-    res.status(200).json({ message: 'User Authorized' });
+   
+   // Prepare the response data
+   const responseData = {
+    access_token: access_token,
+    token_type: 'bearer'
+    };
+
+    // Send POST request to ChatGPT callback URL
+    const chatGptCallbackUrl = 'https://chat.openai.com/aip/g-108735736f89298ee12fd3d6918001a9c5002327/oauth/callback';
+
+    try {
+        const chatGptResponse = await fetch(chatGptCallbackUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(responseData),
+        });
+
+        if (!chatGptResponse.ok) {
+            throw new Error(`HTTP error! status: ${chatGptResponse.status}`);
+        }
+
+        const chatGptResult = await chatGptResponse.json();
+        console.log('ChatGPT callback response:', chatGptResult);
+
+        res.status(200).json({ message: 'Authorization successful', chatGptResponse: chatGptResult });
+    } catch (error) {
+        console.error('Error sending data to ChatGPT:', error);
+        res.status(500).json({ message: 'Error processing authorization', error: error.message });
+    }
 
   }
