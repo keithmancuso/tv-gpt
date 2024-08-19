@@ -8,7 +8,6 @@ export default async function handler(req, res) {
   // Extract status from query parameters or default to 'Watching'
   const { status } = req.body || {};
 
-
   const cookies = cookie.parse(req.headers.cookie || '');
     databaseId = cookies.databaseId;
 
