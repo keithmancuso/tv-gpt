@@ -1,5 +1,5 @@
 export default async function handler(req, res) {
-    const { code } = req.body;
+    const { code } = req.query;
     const clientId = process.env.NOTION_CLIENT_ID;
     const clientSecret = process.env.NOTION_CLIENT_SECRET;
     const redirectUri = process.env.NOTION_REDIRECT_URI;
