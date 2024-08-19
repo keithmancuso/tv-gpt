@@ -15,10 +15,10 @@ export default async function handler(req, res) {
     const response = await fetch("https://api.notion.com/v1/oauth/token", {
         method: "POST",
         headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Basic ${encoded}`,
-    },
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Basic ${encoded}`,
+         },
         body: JSON.stringify({
             grant_type: "authorization_code",
             code: code,
@@ -52,12 +52,6 @@ export default async function handler(req, res) {
     console.error('Access token or Database ID is undefined or null');
     }
 
-   
-   // Prepare the response data
-   const responseData = {
-    access_token: access_token,
-    token_type: 'bearer'
-    };
 
     // Send POST request to ChatGPT callback URL
     const chatGptCallbackUrl = 'https://chat.openai.com/aip/g-108735736f89298ee12fd3d6918001a9c5002327/oauth/callback';
@@ -68,7 +62,11 @@ export default async function handler(req, res) {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(responseData),
+            body: JSON.stringify({
+                access_token: access_token,
+                token_type: 'bearer',
+                expires_in: 59
+            }),
         });
 
         if (!chatGptResponse.ok) {

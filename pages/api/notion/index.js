@@ -1,6 +1,20 @@
-import cookie from 'cookie';
 
 const { Client } = require('@notionhq/client');
+
+// Get databaseId and notionToken from environment variables
+const databaseId = process.env.WATCHING_DATABASE;
+const notionToken = process.env.NOTION_TOKEN;
+
+// Ensure the environment variables are set
+if (!databaseId || !notionToken) {
+  console.error('Missing required environment variables: WATCHING_DATABASE or NOTION_TOKEN');
+  throw new Error('Missing required environment variables');
+}
+
+// Initializing a client
+const notion = new Client({
+  auth: notionToken,
+});
 
 
 export default async function handler(req, res) {
@@ -8,28 +22,6 @@ export default async function handler(req, res) {
   // Extract status from query parameters or default to 'Watching'
   const { status } = req.body || {};
 
-  const cookies = cookie.parse(req.headers.cookie || '');
-    databaseId = cookies.databaseId;
-
-    const authHeader = req.headers.authorization;
-    if (!authHeader) {
-        return res.status(401).json({ error: 'Not authorized' });
-    }
-
-    // Check if the header is present and properly formatted
-    if (authHeader && authHeader.startsWith('Bearer ')) {
-        // Extract the token from the header
-        const notionToken = authHeader.split(' ')[1];
-
-    } else {
-        res.status(401).json({ error: 'Authorization header missing or improperly formatted' });
-    }
-  
-
-    // Initializing a client
-    const notion = new Client({
-        auth: notionToken, // Make sure to add your Notion token to your environment variables
-    });
 
   try {
     // Construct the query with a condition for the status filter
