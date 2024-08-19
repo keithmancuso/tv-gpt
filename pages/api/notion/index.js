@@ -1,20 +1,36 @@
-// pages/api/queryNotion.js
+import cookie from 'cookie';
 
 const { Client } = require('@notionhq/client');
-
-const notionToken = process.env.NOTION_TOKEN; // Your Notion API token also stored as an environment variable
-const databaseId = process.env.WATCHING_DATABASE; // Your Notion Database ID also stored as an environment variable
-
-// Initializing a client
-const notion = new Client({
-  auth: notionToken, // Make sure to add your Notion token to your environment variables
-});
 
 
 export default async function handler(req, res) {
 
   // Extract status from query parameters or default to 'Watching'
   const { status } = req.body || {};
+
+
+  const cookies = cookie.parse(req.headers.cookie || '');
+    databaseId = cookies.databaseId;
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+        return res.status(401).json({ error: 'Not authorized' });
+    }
+
+    // Check if the header is present and properly formatted
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+        // Extract the token from the header
+        const notionToken = authHeader.split(' ')[1];
+
+    } else {
+        res.status(401).json({ error: 'Authorization header missing or improperly formatted' });
+    }
+  
+
+    // Initializing a client
+    const notion = new Client({
+        auth: notionToken, // Make sure to add your Notion token to your environment variables
+    });
 
   try {
     // Construct the query with a condition for the status filter
