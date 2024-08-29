@@ -5,6 +5,7 @@ import { fetchWatching } from '@/app/lib/data';
 
 import { XMarkIcon } from '@heroicons/react/24/solid'
 
+import { Heading } from '@/components/heading'
 
 
 
@@ -16,7 +17,8 @@ export default async function Home() {
 
   return (
     <>
-    <h1 className="text-3xl text-center my-4">Watching</h1>
+          <Heading>Watching</Heading>
+
     <hr/>
     <Table >
       <TableHead>
