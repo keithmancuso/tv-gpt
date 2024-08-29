@@ -7,23 +7,16 @@ import {
 
 
 
-export async function fetchWatching() {
-    // Add noStore() here prevent the response from being cached.
-    // This is equivalent to in fetch(..., {cache: 'no-store'}).
-    noStore();
-  
-  
-    try {
-    
-      console.log('Fetching show data...');
-  
-      const data = await sql<Show>`SELECT * FROM shows where status = 'Watching'`;
-  
-      console.log('Data fetch completed after 3 seconds.');
-  
-      return data.rows;
-    } catch (error) {
-      console.error('Database Error:', error);
-      throw new Error('Failed to fetch revenue data.');
-    }
+export async function fetchShows(status: string) {
+  try {
+    const data = await sql`
+      SELECT * FROM shows
+      WHERE status = ${status}
+      ORDER BY name ASC
+    `;
+    return data.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch shows data.');
   }
+}
