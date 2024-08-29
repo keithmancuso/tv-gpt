@@ -50,8 +50,6 @@ import {
 
 import './globals.css'
 
-import Nav from '@/components/nav'
-
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -68,140 +66,135 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-      
-        
-
 
         <SidebarLayout
-      navbar={
-        <Navbar>
-          <NavbarSection>
-            <NavbarItem href="/">
-              <span className="text-xl font-bold text-zinc-950 dark:text-white">Watch Tonight</span>
-            </NavbarItem>
-          </NavbarSection>
+          navbar={
+            <Navbar>
+              <NavbarSection>
+                <NavbarItem href="/">
+                  <span className="text-xl font-bold text-zinc-950 dark:text-white">Watch Tonight</span>
+                </NavbarItem>
+              </NavbarSection>
 
-          <NavbarSpacer />
-          <NavbarSection>
-            <NavbarItem href="/search" aria-label="Search">
-              <MagnifyingGlassIcon />
-            </NavbarItem>
-            <NavbarItem current href="/" aria-label="Inbox">
-              <HomeIcon />
-            </NavbarItem>
-            <Dropdown>
-              <DropdownButton as={NavbarItem}>
-              <Avatar
+              <NavbarSpacer />
+              <NavbarSection>
+                <NavbarItem href="/search" aria-label="Search">
+                  <MagnifyingGlassIcon />
+                </NavbarItem>
+                <NavbarItem current href="/" aria-label="Inbox">
+                  <HomeIcon />
+                </NavbarItem>
+                <Dropdown>
+                  <DropdownButton as={NavbarItem}>
+                    <Avatar
                       initials="KM"
                       className="size-10"
                       square
                       alt="My profile"
-                      />        
-              </DropdownButton>
-              <DropdownMenu className="min-w-64" anchor="bottom end">
-                <DropdownItem href="/my-profile">
-                  <UserIcon />
-                  <DropdownLabel>My profile</DropdownLabel>
-                </DropdownItem>
-                <DropdownItem href="/settings">
-                  <Cog8ToothIcon />
-                  <DropdownLabel>Settings</DropdownLabel>
-                </DropdownItem>
-                <DropdownDivider />
-                <DropdownItem href="/privacy-policy">
-                  <ShieldCheckIcon />
-                  <DropdownLabel>Privacy policy</DropdownLabel>
-                </DropdownItem>
-                <DropdownItem href="/share-feedback">
-                  <LightBulbIcon />
-                  <DropdownLabel>Share feedback</DropdownLabel>
-                </DropdownItem>
-                <DropdownDivider />
-                <DropdownItem href="/logout">
-                  <ArrowRightStartOnRectangleIcon />
-                  <DropdownLabel>Sign out</DropdownLabel>
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          </NavbarSection>
-        </Navbar>
-      }
-      sidebar={
-        <Sidebar>
-          
-          <SidebarBody>
-            <SidebarSection>
-              <SidebarItem current href="/">
-                <HomeIcon />
-                <SidebarLabel>Home</SidebarLabel>
-              </SidebarItem>
-              <SidebarItem href="/list?status=Watching">
-                <Square2StackIcon />
-                <SidebarLabel>Watching</SidebarLabel>
-              </SidebarItem>
-              <SidebarItem href="/list?status=Next">
-                <TicketIcon />
-                <SidebarLabel>Next</SidebarLabel>
-              </SidebarItem>
-              <SidebarItem href="/list?status=Watched">
-                <Cog6ToothIcon />
-                <SidebarLabel>Watched</SidebarLabel>
-              </SidebarItem>
-           
-            </SidebarSection>
-          
-         
-          </SidebarBody>
-          <SidebarFooter className="max-lg:hidden">
-            <Dropdown>
-              <DropdownButton as={SidebarItem}>
-                <span className="flex min-w-0 items-center gap-3">
-                <Avatar
-                      initials="KM"
-                      className="size-10"
-                      square
-                      alt="My profile"
-                      />                  
-                    <span className="min-w-0">
-                    <span className="block truncate text-sm/5 font-medium text-zinc-950 dark:text-white">Erica</span>
-                    <span className="block truncate text-xs/5 font-normal text-zinc-500 dark:text-zinc-400">
-                      erica@example.com
+                    />
+                  </DropdownButton>
+                  <DropdownMenu className="min-w-64" anchor="bottom end">
+                    <DropdownItem href="/my-profile">
+                      <UserIcon />
+                      <DropdownLabel>My profile</DropdownLabel>
+                    </DropdownItem>
+                    <DropdownItem href="/settings">
+                      <Cog8ToothIcon />
+                      <DropdownLabel>Settings</DropdownLabel>
+                    </DropdownItem>
+                    <DropdownDivider />
+                    <DropdownItem href="/privacy-policy">
+                      <ShieldCheckIcon />
+                      <DropdownLabel>Privacy policy</DropdownLabel>
+                    </DropdownItem>
+                    <DropdownItem href="/share-feedback">
+                      <LightBulbIcon />
+                      <DropdownLabel>Share feedback</DropdownLabel>
+                    </DropdownItem>
+                    <DropdownDivider />
+                    <DropdownItem href="/logout">
+                      <ArrowRightStartOnRectangleIcon />
+                      <DropdownLabel>Sign out</DropdownLabel>
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </NavbarSection>
+            </Navbar>
+          }
+          sidebar={
+            <Sidebar>
+
+              <SidebarBody>
+                <SidebarSection>
+                  <SidebarItem current href="/">
+                    <HomeIcon />
+                    <SidebarLabel>Home</SidebarLabel>
+                  </SidebarItem>
+                  <SidebarItem href="/list?status=Watching">
+                    <Square2StackIcon />
+                    <SidebarLabel>Watching</SidebarLabel>
+                  </SidebarItem>
+                  <SidebarItem href="/list?status=Next">
+                    <TicketIcon />
+                    <SidebarLabel>Next</SidebarLabel>
+                  </SidebarItem>
+                  <SidebarItem href="/list?status=Watched">
+                    <Cog6ToothIcon />
+                    <SidebarLabel>Watched</SidebarLabel>
+                  </SidebarItem>
+
+                </SidebarSection>
+
+
+              </SidebarBody>
+              <SidebarFooter className="max-lg:hidden">
+                <Dropdown>
+                  <DropdownButton as={SidebarItem}>
+                    <span className="flex min-w-0 items-center gap-3">
+                      <Avatar
+                        initials="KM"
+                        className="size-10"
+                        square
+                        alt="My profile"
+                      />
+                      <span className="min-w-0">
+                        <span className="block truncate text-sm/5 font-medium text-zinc-950 dark:text-white">Keith</span>
+
+                      </span>
                     </span>
-                  </span>
-                </span>
-                <ChevronUpIcon />
-              </DropdownButton>
-              <DropdownMenu className="min-w-64" anchor="top start">
-                <DropdownItem href="/my-profile">
-                  <UserIcon />
-                  <DropdownLabel>My profile</DropdownLabel>
-                </DropdownItem>
-                <DropdownItem href="/settings">
-                  <Cog8ToothIcon />
-                  <DropdownLabel>Settings</DropdownLabel>
-                </DropdownItem>
-                <DropdownDivider />
-                <DropdownItem href="/privacy-policy">
-                  <ShieldCheckIcon />
-                  <DropdownLabel>Privacy policy</DropdownLabel>
-                </DropdownItem>
-                <DropdownItem href="/share-feedback">
-                  <LightBulbIcon />
-                  <DropdownLabel>Share feedback</DropdownLabel>
-                </DropdownItem>
-                <DropdownDivider />
-                <DropdownItem href="/logout">
-                  <ArrowRightStartOnRectangleIcon />
-                  <DropdownLabel>Sign out</DropdownLabel>
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          </SidebarFooter>
-        </Sidebar>
-      }
-    >
-     {children}
-    </SidebarLayout>
+                    <ChevronUpIcon />
+                  </DropdownButton>
+                  <DropdownMenu className="min-w-64" anchor="top start">
+                    <DropdownItem href="/my-profile">
+                      <UserIcon />
+                      <DropdownLabel>My profile</DropdownLabel>
+                    </DropdownItem>
+                    <DropdownItem href="/settings">
+                      <Cog8ToothIcon />
+                      <DropdownLabel>Settings</DropdownLabel>
+                    </DropdownItem>
+                    <DropdownDivider />
+                    <DropdownItem href="/privacy-policy">
+                      <ShieldCheckIcon />
+                      <DropdownLabel>Privacy policy</DropdownLabel>
+                    </DropdownItem>
+                    <DropdownItem href="/share-feedback">
+                      <LightBulbIcon />
+                      <DropdownLabel>Share feedback</DropdownLabel>
+                    </DropdownItem>
+                    <DropdownDivider />
+                    <DropdownItem href="/logout">
+                      <ArrowRightStartOnRectangleIcon />
+                      <DropdownLabel>Sign out</DropdownLabel>
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </SidebarFooter>
+            </Sidebar>
+          }
+        >
+          {children}
+        </SidebarLayout>
       </body>
     </html>
   )

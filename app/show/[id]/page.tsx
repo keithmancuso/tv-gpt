@@ -24,7 +24,7 @@ export default function ShowDetail({ params }: { params: { id: string } }) {
     useEffect(() => {
         async function fetchShow() {
             if (isNewShow) {
-                const statusParam = searchParams.get('status');
+                const statusParam = searchParams?.get('status');
                 if (statusParam) {
                     setStatus(statusParam);
                 }
