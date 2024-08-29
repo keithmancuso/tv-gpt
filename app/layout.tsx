@@ -135,15 +135,15 @@ export default function RootLayout({
                 <HomeIcon />
                 <SidebarLabel>Home</SidebarLabel>
               </SidebarItem>
-              <SidebarItem href="/">
+              <SidebarItem href="/list?status=Watching">
                 <Square2StackIcon />
                 <SidebarLabel>Watching</SidebarLabel>
               </SidebarItem>
-              <SidebarItem href="/?status=Next">
+              <SidebarItem href="/list?status=Next">
                 <TicketIcon />
                 <SidebarLabel>Next</SidebarLabel>
               </SidebarItem>
-              <SidebarItem href="/?status=Loved">
+              <SidebarItem href="/list?status=Loved">
                 <Cog6ToothIcon />
                 <SidebarLabel>Loved</SidebarLabel>
               </SidebarItem>

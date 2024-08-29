@@ -8,8 +8,13 @@ import { useState } from 'react'
 import { PlusIcon } from '@heroicons/react/20/solid'
 
 import { createShow } from '@/app/lib/actions';
+import { Select } from '@/components/select'
 
-export default function Example() {
+interface ExampleProps {
+  status?: string;
+}
+
+export default function Example({ status }: ExampleProps) {
   let [isOpen, setIsOpen] = useState(false)
   const [suggestions, setSuggestions] = useState([])
 
@@ -31,8 +36,12 @@ export default function Example() {
         New Show
       </Button>
       <Dialog open={isOpen} onClose={setIsOpen}>
-        <DialogTitle>Add a new show</DialogTitle>
-        <form action={createShow}>
+        <DialogTitle>Add a new {status} show</DialogTitle>
+        <form action={(formData) => {
+          const data = Object.fromEntries(formData);
+          if (status) data.status = status;
+          return createShow(data);
+        }}>
         <DialogBody>
           
             <FieldGroup>
@@ -48,7 +57,15 @@ export default function Example() {
           </Field>
           <Field>
             <Label>App</Label>
-            <Input name="app" />
+            <Select name="app">
+              <option value="Netflix">Netflix</option>
+              <option value="Disney+">Disney+</option>
+              <option value="Amazon Prime">Amazon Prime</option>
+              <option value="Max">Max</option>
+              <option value="Apple TV+">Apple TV+</option>
+              <option value="Peacock">Peacock</option>
+              <option value="Paramount+">Paramount+</option>
+            </Select>
           </Field>
           </FieldGroup>
          
