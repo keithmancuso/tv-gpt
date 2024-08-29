@@ -28,8 +28,19 @@ export async function createShow(formData: FormData) {
             message: 'Database Error: Failed to Create Show.',
         };
     }
+}
 
-  }
+export async function deleteShow(formData: FormData) {
+    const id = formData.get('id')
+    const path = formData.get('path') as string
+    
+    try {
+        await sql`DELETE FROM shows WHERE id = ${id}`
+        revalidatePath(path)
+    } catch (error) {
+        console.error('Failed to delete show:', error)
+    }
+}
 
 
 

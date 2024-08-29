@@ -1,3 +1,5 @@
+'use client'
+
 import { Button } from '@/components/button'
 import { Dialog, DialogActions, DialogBody, DialogDescription, DialogTitle } from '@/components/dialog'
 import { Field, Label, FieldGroup } from '@/components/fieldset'
@@ -7,10 +9,20 @@ import { PlusIcon } from '@heroicons/react/20/solid'
 
 import { createShow } from '@/app/lib/actions';
 
-
-
 export default function Example() {
   let [isOpen, setIsOpen] = useState(false)
+  const [suggestions, setSuggestions] = useState([])
+
+  const handleSearch = async (value: string) => {
+    if (value.length < 2) return
+    try {
+      const response = await fetch(`/api/tvdb-search?query=${encodeURIComponent(value)}`)
+      const data = await response.json()
+      setSuggestions(data.data.slice(0, 5))
+    } catch (error) {
+      console.error('Error fetching suggestions:', error)
+    }
+  }
 
   return (
     <>
@@ -26,7 +38,17 @@ export default function Example() {
             <FieldGroup>
           <Field>
             <Label>Name</Label>
-            <Input name="name" />
+            <Input
+              name="name"
+              type="text"
+              autoComplete="off"
+              list="show-suggestions"
+            />
+            <datalist id="show-suggestions">
+              {suggestions.map((show, index) => (
+                <option key={index} value={show.title} />
+              ))}
+            </datalist>
           </Field>
           <Field>
             <Label>App</Label>

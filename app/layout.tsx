@@ -75,12 +75,18 @@ export default function RootLayout({
         <SidebarLayout
       navbar={
         <Navbar>
+          <NavbarSection>
+            <NavbarItem>
+              <span className="text-xl font-bold text-zinc-950 dark:text-white">Watch Tonight</span>
+            </NavbarItem>
+          </NavbarSection>
+
           <NavbarSpacer />
           <NavbarSection>
             <NavbarItem href="/search" aria-label="Search">
               <MagnifyingGlassIcon />
             </NavbarItem>
-            <NavbarItem href="/" aria-label="Inbox">
+            <NavbarItem current href="/" aria-label="Inbox">
               <HomeIcon />
             </NavbarItem>
             <Dropdown>
@@ -125,7 +131,7 @@ export default function RootLayout({
           
           <SidebarBody>
             <SidebarSection>
-              <SidebarItem href="/">
+              <SidebarItem current href="/">
                 <HomeIcon />
                 <SidebarLabel>Home</SidebarLabel>
               </SidebarItem>

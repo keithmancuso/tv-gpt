@@ -17,7 +17,7 @@ export async function fetchWatching() {
     
       console.log('Fetching show data...');
   
-      const data = await sql<Show>`SELECT * FROM shows`;
+      const data = await sql<Show>`SELECT * FROM shows where status = 'Watching'`;
   
       console.log('Data fetch completed after 3 seconds.');
   
