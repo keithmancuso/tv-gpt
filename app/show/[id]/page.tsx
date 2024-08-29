@@ -17,6 +17,7 @@ export default function ShowDetail({ params }: { params: { id: string } }) {
     const [app, setApp] = useState<string>('Netflix');
     const [review, setReview] = useState<string | null>(null);
     const [isLoaded, setIsLoaded] = useState(false);
+    const [suggestions, setSuggestions] = useState<string[]>([]);
     const router = useRouter();
     const searchParams = useSearchParams();
     const isNewShow = params.id === 'new';
@@ -65,7 +66,7 @@ export default function ShowDetail({ params }: { params: { id: string } }) {
         });
 
         if (response.ok) {
-            router.push(`/?status=${status}`);
+            router.push(`/list?status=${status}`);
         } else {
             console.error('Failed to save show');
         }
@@ -80,11 +81,41 @@ export default function ShowDetail({ params }: { params: { id: string } }) {
                 body: JSON.stringify({ id: show.id }),
             });
             if (response.ok) {
-                router.push('/');
+                router.push('/list?status=Watching');
             } else {
                 console.error('Failed to delete show');
             }
         }
+    };
+
+    const [debouncedFetch] = useState(() => {
+        let timeoutId: NodeJS.Timeout;
+        return (value: string) => {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(async () => {
+                if (value.length > 2) {
+                    const response = await fetch(`/api/tvdb-search?query=${encodeURIComponent(value)}`, {
+                        method: 'GET',
+                        headers: { 'Content-Type': 'application/json' },
+                    });
+                    if (response.ok) {
+                        const data = await response.json();
+
+                        console.log('data', data);
+                        if (data.data) {
+                            const newSuggestions = data.data.map((show: any) => show.name);
+                            setSuggestions(newSuggestions);
+                        }
+                    }
+                }
+            }, 300); // 300ms debounce
+        };
+    });
+
+    const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setName(value);
+        debouncedFetch(value);
     };
 
     if (!isLoaded) {
@@ -100,10 +131,16 @@ export default function ShowDetail({ params }: { params: { id: string } }) {
                         <Label htmlFor="name">Name</Label>
                         <Input
                             id="name"
+                            list="show-suggestions"
                             value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            onChange={handleNameChange}
                             required
                         />
+                        <datalist id="show-suggestions">
+                            {suggestions.map((suggestion, index) => (
+                                <option key={index} value={suggestion} />
+                            ))}
+                        </datalist>
                     </Field>
                     <Field>
                         <Label htmlFor="app">App</Label>

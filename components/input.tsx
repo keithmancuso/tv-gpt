@@ -51,7 +51,7 @@ export const Input = forwardRef(function Input(
         'before:has-[[data-invalid]]:shadow-red-500/10',
       ])}
     >
-      <Headless.Input
+      <Headless.Input autoComplete='off'
         ref={ref}
         {...props}
         className={clsx([
