@@ -42,13 +42,9 @@ export default function Example() {
               name="name"
               type="text"
               autoComplete="off"
-              list="show-suggestions"
+           
             />
-            <datalist id="show-suggestions">
-              {suggestions.map((show, index) => (
-                <option key={index} value={show.title} />
-              ))}
-            </datalist>
+          
           </Field>
           <Field>
             <Label>App</Label>

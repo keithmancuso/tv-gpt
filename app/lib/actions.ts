@@ -31,9 +31,13 @@ export async function createShow(formData: FormData) {
 }
 
 export async function deleteShow(formData: FormData) {
-    const id = formData.get('id')
-    const path = formData.get('path') as string
+    const id = formData.get('id')?.toString();
+    const path = formData.get('path') as string;
     
+    if (!id) {
+        throw new Error('Show ID is required');
+    }
+
     try {
         await sql`DELETE FROM shows WHERE id = ${id}`
         revalidatePath(path)
