@@ -17,10 +17,10 @@ export default function ShowDetail({ params }: { params: { id: string } }) {
     const [app, setApp] = useState<string>('Netflix');
     const [review, setReview] = useState<string | null>(null);
     const [isLoaded, setIsLoaded] = useState(false);
-    const [suggestions, setSuggestions] = useState<string[]>([]);
     const router = useRouter();
     const searchParams = useSearchParams();
     const isNewShow = params.id === 'new';
+    const [suggestions, setSuggestions] = useState<Array<{ name: string, network: string }>>([]);
 
     useEffect(() => {
         async function fetchShow() {
@@ -100,15 +100,16 @@ export default function ShowDetail({ params }: { params: { id: string } }) {
                     });
                     if (response.ok) {
                         const data = await response.json();
-
-                        console.log('data', data);
                         if (data.data) {
-                            const newSuggestions = data.data.map((show: any) => show.name);
+                            const newSuggestions = data.data.map((show: any) => ({
+                                name: show.name,
+                                network: show.network || 'Unknown'
+                            }));
                             setSuggestions(newSuggestions);
                         }
                     }
                 }
-            }, 300); // 300ms debounce
+            }, 300);
         };
     });
 
@@ -116,6 +117,13 @@ export default function ShowDetail({ params }: { params: { id: string } }) {
         const value = e.target.value;
         setName(value);
         debouncedFetch(value);
+
+        // Check if the selected value matches a suggestion
+        const selectedSuggestion = suggestions.find(suggestion => suggestion.name === value);
+        if (selectedSuggestion) {
+            console.log('network', selectedSuggestion.network);
+            setApp(selectedSuggestion.network);
+        }
     };
 
     if (!isLoaded) {
@@ -135,10 +143,11 @@ export default function ShowDetail({ params }: { params: { id: string } }) {
                             value={name}
                             onChange={handleNameChange}
                             required
+                            autoComplete="off"
                         />
                         <datalist id="show-suggestions">
                             {suggestions.map((suggestion, index) => (
-                                <option key={index} value={suggestion} />
+                                <option key={index} value={suggestion.name} />
                             ))}
                         </datalist>
                     </Field>
@@ -151,7 +160,7 @@ export default function ShowDetail({ params }: { params: { id: string } }) {
                         >
                             <option value="Netflix">Netflix</option>
                             <option value="Disney+">Disney+</option>
-                            <option value="Amazon Prime">Amazon Prime</option>
+                            <option value="Prime Video">Prime Video</option>
                             <option value="Max">Max</option>
                             <option value="Apple TV+">Apple TV+</option>
                             <option value="Peacock">Peacock</option>
