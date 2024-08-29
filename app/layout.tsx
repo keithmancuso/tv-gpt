@@ -35,6 +35,9 @@ import {
   SparklesIcon,
   Square2StackIcon,
   TicketIcon,
+  ForwardIcon,
+  TvIcon,
+  CheckCircleIcon
 } from '@heroicons/react/20/solid'
 
 import { Avatar } from '@/components/avatar'
@@ -46,6 +49,8 @@ import {
   DropdownLabel,
   DropdownMenu,
 } from '@/components/dropdown'
+
+
 
 
 import './globals.css'
@@ -131,15 +136,15 @@ export default function RootLayout({
                     <SidebarLabel>Home</SidebarLabel>
                   </SidebarItem>
                   <SidebarItem href="/list?status=Watching">
-                    <Square2StackIcon />
+                    <TvIcon />
                     <SidebarLabel>Watching</SidebarLabel>
                   </SidebarItem>
                   <SidebarItem href="/list?status=Next">
-                    <TicketIcon />
+                    <ForwardIcon />
                     <SidebarLabel>Next</SidebarLabel>
                   </SidebarItem>
                   <SidebarItem href="/list?status=Watched">
-                    <Cog6ToothIcon />
+                    <CheckCircleIcon />
                     <SidebarLabel>Watched</SidebarLabel>
                   </SidebarItem>
 
