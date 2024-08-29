@@ -1,4 +1,14 @@
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/table'
+
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 import { fetchShows } from '@/app/lib/data';
 import { Heading } from '@/components/heading'
 
@@ -31,12 +41,12 @@ export default async function Home({
       </div>
 
       <Table>
-        <TableHead>
+        <TableHeader>
           <TableRow>
-            <TableHeader>Name</TableHeader>
-            <TableHeader>App</TableHeader>
+            <TableHead>Name</TableHead>
+            <TableHead>App</TableHead>
           </TableRow>
-        </TableHead>
+        </TableHeader>
         <TableBody>
           {shows.map((show) => (
             <TableRow key={show.id}>
