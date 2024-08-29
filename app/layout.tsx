@@ -143,9 +143,9 @@ export default function RootLayout({
                 <TicketIcon />
                 <SidebarLabel>Next</SidebarLabel>
               </SidebarItem>
-              <SidebarItem href="/list?status=Loved">
+              <SidebarItem href="/list?status=Watched">
                 <Cog6ToothIcon />
-                <SidebarLabel>Loved</SidebarLabel>
+                <SidebarLabel>Watched</SidebarLabel>
               </SidebarItem>
            
             </SidebarSection>
