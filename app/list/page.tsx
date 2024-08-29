@@ -1,8 +1,8 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/table'
 import { fetchShows } from '@/app/lib/data';
 import { Heading } from '@/components/heading'
-import NewBtn from '@/components/new'
-import Remove from '@/components/remove'
+
+import { Button } from '@/components/button'
 import Link from 'next/link';
 
 
@@ -22,7 +22,12 @@ export default async function Home({
     <>
       <div className="flex w-full flex-wrap items-end justify-between gap-4 border-b border-zinc-950/10 pb-6 dark:border-white/10">
         <Heading>{status}</Heading>
-        <NewBtn status={status} />
+        <Button href={`/show/new?status=${status}`}>
+          Add New Show
+        </Button>
+
+
+
       </div>
 
       <Table>

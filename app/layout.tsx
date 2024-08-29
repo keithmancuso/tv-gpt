@@ -76,7 +76,7 @@ export default function RootLayout({
       navbar={
         <Navbar>
           <NavbarSection>
-            <NavbarItem>
+            <NavbarItem href="/">
               <span className="text-xl font-bold text-zinc-950 dark:text-white">Watch Tonight</span>
             </NavbarItem>
           </NavbarSection>
