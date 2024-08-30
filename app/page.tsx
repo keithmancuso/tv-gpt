@@ -1,15 +1,16 @@
-import { Heading } from '@/components/heading'
-import { Button } from '@/components/button'
-
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
-      <Heading className="mb-4">Welcome to Watch Tonight</Heading>
+    <div className="flex flex-col items-center justify-center">
+      <h1 className="mb-4 text-xl font-bold">Welcome to Watch Tonight</h1>
       <p className="text-xl mb-8 text-center">
-        Your personal TV show tracker. Never lose track of what you are watching again!
+        Your personal television assistant.
       </p>
-      <Button href="/list?status=Watching">
-        View My Watching List
+      <Button asChild>
+        <Link href="/list?status=Watching">
+          View My Watching List
+        </Link>
       </Button>
     </div>
   )

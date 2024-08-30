@@ -1,60 +1,11 @@
 import type { Metadata } from 'next'
 import { Inter as FontSans } from 'next/font/google'
-import { Navbar, NavbarItem, NavbarSection, NavbarSpacer } from '@/components/navbar'
-import {
-  Sidebar,
-  SidebarBody,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarHeading,
-  SidebarItem,
-  SidebarLabel,
-  SidebarSection,
-  SidebarSpacer,
-} from '@/components/sidebar'
-import { SidebarLayout } from '@/components/sidebar-layout'
+import Link from 'next/link'
 
-import {
-  ArrowRightStartOnRectangleIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
-  Cog8ToothIcon,
-  LightBulbIcon,
-  PlusIcon,
-  ShieldCheckIcon,
-  UserIcon,
-} from '@heroicons/react/16/solid'
-
-import {
-  Cog6ToothIcon,
-  HomeIcon,
-  InboxIcon,
-  MagnifyingGlassIcon,
-  MegaphoneIcon,
-  QuestionMarkCircleIcon,
-  SparklesIcon,
-  Square2StackIcon,
-  TicketIcon,
-  ForwardIcon,
-  TvIcon,
-  CheckCircleIcon
-} from '@heroicons/react/20/solid'
-
-import { Avatar } from '@/components/avatar'
-import {
-  Dropdown,
-  DropdownButton,
-  DropdownDivider,
-  DropdownItem,
-  DropdownLabel,
-  DropdownMenu,
-} from '@/components/dropdown'
-
-
-import { cn } from "@/lib/utils"
 
 
 import './globals.css'
+import { Card, CardContent } from '@/components/ui/card'
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -73,136 +24,20 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-background font-sans antialiased">
+      <body className="min-h-screen bg-amber-50 font-sans antialiased">
 
-        <SidebarLayout
-          navbar={
-            <Navbar>
-              <NavbarSection>
-                <NavbarItem href="/">
-                  <span className="text-xl font-bold text-zinc-950 dark:text-white">Watch Tonight</span>
-                </NavbarItem>
-              </NavbarSection>
+        <header className="sticky top-0 z-50 w-full bg-white shadow-md">
+          <div className="container mx-auto py-2">
+            <Link href="/" className="block">
+              <h1 className="text-2xl font-bold text-center">Watch Tonight</h1>
+            </Link>
+          </div>
+        </header>
+        <div className="container mx-auto py-6">
 
-              <NavbarSpacer />
-              <NavbarSection>
-                <NavbarItem href="/search" aria-label="Search">
-                  <MagnifyingGlassIcon />
-                </NavbarItem>
-                <NavbarItem current href="/" aria-label="Inbox">
-                  <HomeIcon />
-                </NavbarItem>
-                <Dropdown>
-                  <DropdownButton as={NavbarItem}>
-                    <Avatar
-                      initials="KM"
-                      className="size-10"
-                      square
-                      alt="My profile"
-                    />
-                  </DropdownButton>
-                  <DropdownMenu className="min-w-64" anchor="bottom end">
-                    <DropdownItem href="/my-profile">
-                      <UserIcon />
-                      <DropdownLabel>My profile</DropdownLabel>
-                    </DropdownItem>
-                    <DropdownItem href="/settings">
-                      <Cog8ToothIcon />
-                      <DropdownLabel>Settings</DropdownLabel>
-                    </DropdownItem>
-                    <DropdownDivider />
-                    <DropdownItem href="/privacy-policy">
-                      <ShieldCheckIcon />
-                      <DropdownLabel>Privacy policy</DropdownLabel>
-                    </DropdownItem>
-                    <DropdownItem href="/share-feedback">
-                      <LightBulbIcon />
-                      <DropdownLabel>Share feedback</DropdownLabel>
-                    </DropdownItem>
-                    <DropdownDivider />
-                    <DropdownItem href="/logout">
-                      <ArrowRightStartOnRectangleIcon />
-                      <DropdownLabel>Sign out</DropdownLabel>
-                    </DropdownItem>
-                  </DropdownMenu>
-                </Dropdown>
-              </NavbarSection>
-            </Navbar>
-          }
-          sidebar={
-            <Sidebar>
-
-              <SidebarBody>
-                <SidebarSection>
-                  <SidebarItem current href="/">
-                    <HomeIcon />
-                    <SidebarLabel>Home</SidebarLabel>
-                  </SidebarItem>
-                  <SidebarItem href="/list?status=Watching">
-                    <TvIcon />
-                    <SidebarLabel>Watching</SidebarLabel>
-                  </SidebarItem>
-                  <SidebarItem href="/list?status=Next">
-                    <ForwardIcon />
-                    <SidebarLabel>Next</SidebarLabel>
-                  </SidebarItem>
-                  <SidebarItem href="/list?status=Watched">
-                    <CheckCircleIcon />
-                    <SidebarLabel>Watched</SidebarLabel>
-                  </SidebarItem>
-
-                </SidebarSection>
-
-
-              </SidebarBody>
-              <SidebarFooter className="max-lg:hidden">
-                <Dropdown>
-                  <DropdownButton as={SidebarItem}>
-                    <span className="flex min-w-0 items-center gap-3">
-                      <Avatar
-                        initials="KM"
-                        className="size-10"
-                        square
-                        alt="My profile"
-                      />
-                      <span className="min-w-0">
-                        <span className="block truncate text-sm/5 font-medium text-zinc-950 dark:text-white">Keith</span>
-
-                      </span>
-                    </span>
-                    <ChevronUpIcon />
-                  </DropdownButton>
-                  <DropdownMenu className="min-w-64" anchor="top start">
-                    <DropdownItem href="/my-profile">
-                      <UserIcon />
-                      <DropdownLabel>My profile</DropdownLabel>
-                    </DropdownItem>
-                    <DropdownItem href="/settings">
-                      <Cog8ToothIcon />
-                      <DropdownLabel>Settings</DropdownLabel>
-                    </DropdownItem>
-                    <DropdownDivider />
-                    <DropdownItem href="/privacy-policy">
-                      <ShieldCheckIcon />
-                      <DropdownLabel>Privacy policy</DropdownLabel>
-                    </DropdownItem>
-                    <DropdownItem href="/share-feedback">
-                      <LightBulbIcon />
-                      <DropdownLabel>Share feedback</DropdownLabel>
-                    </DropdownItem>
-                    <DropdownDivider />
-                    <DropdownItem href="/logout">
-                      <ArrowRightStartOnRectangleIcon />
-                      <DropdownLabel>Sign out</DropdownLabel>
-                    </DropdownItem>
-                  </DropdownMenu>
-                </Dropdown>
-              </SidebarFooter>
-            </Sidebar>
-          }
-        >
           {children}
-        </SidebarLayout>
+
+        </div>
       </body>
     </html>
   )
