@@ -136,7 +136,7 @@ export default function ShowDetail({ params }: { params: { id: string } }) {
                     )}
                     <div className="flex space-x-4">
                         <Button type="submit">{isNewShow ? 'Add Show' : 'Update Show'}</Button>
-                        {!isNewShow && <Button type="button" onClick={handleDelete}>Delete Show</Button>}
+                        {!isNewShow && <Button variant="destructive" onClick={handleDelete}>Delete Show</Button>}
                     </div>
                 </form>
             </CardContent>

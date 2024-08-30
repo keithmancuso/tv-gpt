@@ -1,8 +1,11 @@
 import type { Metadata } from 'next'
 import { Inter as FontSans } from 'next/font/google'
 import Link from 'next/link'
-
-
+import { GeistSans } from "geist/font/sans"
+import { GeistMono } from "geist/font/mono"
+import { cn } from "@/lib/utils"
+import { ThemeProvider } from "@/components/theme-provider"
+import { ModeToggle } from "@/components/theme-toggle"
 
 import './globals.css'
 import { Card, CardContent } from '@/components/ui/card'
@@ -23,21 +26,35 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className="min-h-screen bg-amber-50 font-sans antialiased">
+    <html lang="en" suppressHydrationWarning>
+      <body className={cn(
+        "min-h-screen bg-background font-sans antialiased",
+        GeistSans.variable,
+        GeistMono.variable
+      )}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <header className="sticky top-0 z-50 w-full shadow-md bg-background border-b border-slate-200 dark:border-slate-800">
+            <div className="container mx-auto py-2">
+              <Link href="/" className="block">
+                <h1 className="text-2xl font-bold text-center">Watch Tonight</h1>
+              </Link>
+              <div className="absolute top-1 right-4 ">
+                <ModeToggle />
+              </div>
 
-        <header className="sticky top-0 z-50 w-full bg-white shadow-md">
-          <div className="container mx-auto py-2">
-            <Link href="/" className="block">
-              <h1 className="text-2xl font-bold text-center">Watch Tonight</h1>
-            </Link>
+            </div>
+          </header>
+          <div className="container mx-auto py-6">
+
+            {children}
+
           </div>
-        </header>
-        <div className="container mx-auto py-6">
-
-          {children}
-
-        </div>
+        </ThemeProvider>
       </body>
     </html>
   )
