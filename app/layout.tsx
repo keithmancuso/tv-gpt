@@ -32,7 +32,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <header className="sticky top-0 z-50 w-full shadow-md bg-background border-b border-slate-200 dark:border-slate-800">
+          <header className="sticky top-0 z-50 w-full bg-background border-b border-slate-200 dark:border-slate-800">
             <div className="container">
               <div className=" pt-2 pb-2 flex justify-between">
                 <Link href="/" className="flex items-center">

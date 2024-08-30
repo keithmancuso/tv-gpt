@@ -17,6 +17,7 @@ export default function ShowDetail({ params }: { params: { id: string } }) {
         app: 'Netflix',
         review: '',
     });
+    const [suggestions, setSuggestions] = useState<string[]>([]);
     const router = useRouter();
     const searchParams = useSearchParams();
     const isNewShow = params.id === 'new';
@@ -31,6 +32,20 @@ export default function ShowDetail({ params }: { params: { id: string } }) {
             setShow(prev => ({ ...prev, status: searchParams?.get('status') || 'Next' }));
         }
     }, [params.id, isNewShow, searchParams]);
+
+    useEffect(() => {
+        if (show.name.length > 2) {
+            fetch(`/api/tvdb-search?query=${encodeURIComponent(show.name)}`)
+                .then(res => res.json())
+                .then(data => {
+                    const showNames = data.data?.map((item: any) => item.name) || [];
+                    setSuggestions(showNames);
+                })
+                .catch(err => console.error('Failed to fetch suggestions:', err));
+        } else {
+            setSuggestions([]);
+        }
+    }, [show.name]);
 
     const handleChange = (field: string, value: string) => {
         setShow(prev => ({ ...prev, [field]: value }));
@@ -90,12 +105,21 @@ export default function ShowDetail({ params }: { params: { id: string } }) {
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
                         <Label htmlFor="name">Name</Label>
-                        <Input
-                            id="name"
-                            value={show.name}
-                            onChange={(e) => handleChange('name', e.target.value)}
-                            required
-                        />
+
+                        <div className="relative">
+                            <Input
+                                id="name"
+                                value={show.name}
+                                onChange={(e) => handleChange('name', e.target.value)}
+                                required
+                                list="show-suggestions"
+                            />
+                            <datalist id="show-suggestions">
+                                {suggestions.map((suggestion, index) => (
+                                    <option key={index} value={suggestion} />
+                                ))}
+                            </datalist>
+                        </div>
                     </div>
                     <div>
                         <Label htmlFor="app">App</Label>
