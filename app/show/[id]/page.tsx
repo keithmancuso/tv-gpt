@@ -82,7 +82,7 @@ export default function ShowDetail({ params }: { params: { id: string } }) {
     };
 
     return (
-        <Card className="max-w-2xl mx-auto">
+        <Card className="max-w-2xl mx-auto mt-16">
             <CardHeader>
                 <CardTitle>{isNewShow ? 'Add New Show' : show.name}</CardTitle>
             </CardHeader>

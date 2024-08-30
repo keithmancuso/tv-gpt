@@ -27,7 +27,7 @@ export default async function Home({
 
   return (
     <>
-      <div className="flex w-full flex-wrap items-end justify-between gap-1  border-b border-zinc-950/10 pb-6 dark:border-white/10">
+      <div className="w-screen relative border-b border-slate-200 dark:border-slate-800 py-4">
         <div className="flex justify-center w-full">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -47,15 +47,7 @@ export default async function Home({
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <div className="fixed bottom-6 right-6">
-          <Button asChild className="rounded-full w-14 h-14 p-0">
-            <Link href={`/show/new?status=${status}`} aria-label="Add New Show">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-                <path fillRule="evenodd" d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z" clipRule="evenodd" />
-              </svg>
-            </Link>
-          </Button>
-        </div>
+
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
@@ -70,6 +62,16 @@ export default async function Home({
             </Card>
           </Link>
         ))}
+      </div>
+
+      <div className="fixed bottom-6 right-6">
+        <Button asChild className="rounded-full w-14 h-14 p-0">
+          <Link href={`/show/new?status=${status}`} aria-label="Add New Show">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+              <path fillRule="evenodd" d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z" clipRule="evenodd" />
+            </svg>
+          </Link>
+        </Button>
       </div>
     </>
   )
