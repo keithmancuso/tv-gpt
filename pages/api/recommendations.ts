@@ -1,56 +1,64 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import OpenAI from 'openai';
+import { z } from 'zod';
 import { fetchAllShows } from '@/app/lib/data';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-const ASSISTANT_ID = "asst_xldr6ARBwgyh52Vu0TGBHbwx";
+const Recommendation = z.object({
+    title: z.string(),
+    reason: z.string(),
+    status: z.string(),
+});
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+const RecommendationArray = z.array(Recommendation).length(5);
+
+const MessageSchema = z.object({
+  role: z.enum(['user', 'assistant', 'system']),
+  content: z.string(),
+});
+
+type Message = z.infer<typeof MessageSchema>;
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<any>
+) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
-    const { threadId } = req.body;
-
+    const { messages } = req.body;
     const shows = await fetchAllShows();
     const showsData = JSON.stringify(shows);
 
-    let thread;
-    if (threadId) {
-      thread = { id: threadId };
-    } else {
-      thread = await openai.beta.threads.create();
-    }
+    const validatedMessages = z.array(MessageSchema).parse(messages);
 
-    await openai.beta.threads.messages.create(thread.id, {
-      role: "user",
-      content: "Can you recommend a TV show for me to watch tonight? Here's my current watch list: " + showsData
+    const systemMessage: Message = {
+      role: "system",
+      content: `You are a TV show recommendation assistant. Always provide exactly 5 recommendations in JSON format. Each recommendation should include title, reason, and status. Here's the user's current watch list: ${showsData}`
+    };
+
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4-1106-preview",
+      messages: [systemMessage, ...validatedMessages] as Message[],
+      response_format: { type: "json_object" },
     });
 
-    const run = await openai.beta.threads.runs.create(thread.id, {
-      assistant_id: ASSISTANT_ID
-    });
+    const content = completion.choices[0].message.content || '{}';
+    const parsedContent = JSON.parse(content);
 
-    // Wait for the run to complete
-    let runStatus = await openai.beta.threads.runs.retrieve(thread.id, run.id);
-    while (runStatus.status !== "completed") {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      runStatus = await openai.beta.threads.runs.retrieve(thread.id, run.id);
-    }
-
-    // Retrieve the assistant's response
-    const messages = await openai.beta.threads.messages.list(thread.id);
-    const assistantResponse = messages.data[0].content[0];
-
-    const recommendation = 'text' in assistantResponse ? assistantResponse.text.value : 'No recommendation available';
-
-    res.status(200).json({ recommendation, threadId: thread.id });
+    const validatedResponse = RecommendationArray.parse(parsedContent.recommendations);
+    res.status(200).json(validatedResponse);
   } catch (error) {
     console.error('OpenAI API error:', error);
-    res.status(500).json({ error: 'Failed to get recommendation' });
+    if (error instanceof z.ZodError) {
+      res.status(500).json({ error: 'Invalid response format from OpenAI', details: error.errors });
+    } else {
+      res.status(500).json({ error: 'Failed to process the request' });
+    }
   }
 }
