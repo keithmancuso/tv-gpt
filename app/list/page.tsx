@@ -27,7 +27,7 @@ export default async function Home({
 
   return (
     <>
-      <div className="w-screen relative border-b border-slate-200 dark:border-slate-800 py-4">
+      <div className="relative border-b border-slate-200 dark:border-slate-800 py-4">
         <div className="flex justify-center w-full">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
