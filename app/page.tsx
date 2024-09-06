@@ -1,60 +1,38 @@
-'use client'
+import { Card, CardHeader, CardContent, CardTitle } from '@/components/ui/card'
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@/components/ui/carousel';
 
-import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button'
-import { Card, CardHeader, CardContent } from '@/components/ui/card'
-import Link from 'next/link'
-import { marked } from 'marked';
+import { fetchShows } from '@/app/lib/data';
 
-export default function Home() {
-  const [recommendation, setRecommendation] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-
-  const getRecommendation = async () => {
-    setLoading(true);
-    try {
-      const response = await fetch('/api/recommendations');
-      const data = await response.json();
-      setRecommendation(data.recommendation);
-    } catch (error) {
-      console.error('Failed to get recommendation:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+export default async function Home() {
+  const watchingShows = await fetchShows('Watching');
 
   return (
-    <div className="">
-      <Card className="my-8">
-        <CardHeader>
-          <h1 className="text-xl font-bold text-center">Welcome to Watch Tonight</h1>
-          <p className="text-xl text-center">
-            Your personal television assistant.
-          </p>
-        </CardHeader>
-        <CardContent className="flex flex-col items-center">
-          <Button asChild className="mb-4">
-            <Link href="/list?status=Watching">
-              View My Watching List
-            </Link>
-          </Button>
-          <Button onClick={getRecommendation} disabled={loading}>
-            {loading ? 'Getting Recommendation...' : 'What Should I Watch Tonight?'}
-          </Button>
-        </CardContent>
-      </Card>
+    <div className="mt-5">
 
-      <div className="">
+      <h2 className="text-2xl font-bold mb-2">Watching</h2>
+      <Carousel className="w-full mx-auto" opts={{
+        align: "start"
+      }}>
+        <CarouselContent className="-ml-2">
+          {watchingShows.map((show, index) => (
+            <CarouselItem key={index} className="pl-2 basis-1/2">
+              <Card className='min-h-[16rem] py-1 px-2'>
+                <CardHeader className="py-1 px-0">
+                  <CardTitle className="text-lg leading-tight">{show.name}</CardTitle>
+                </CardHeader>
+                <CardContent className="py-1 px-0">
+                  <p className="text-sm">{show.status}</p>
+                </CardContent>
+              </Card>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2" />
+      </Carousel>
 
-        {recommendation && (
-          <div className="mt-4 text-left">
-            <h2 className="text-lg font-semibold">Recommendation:</h2>
-            <div className="mt-2 text-lg leading-relaxed prose dark:prose-invert">
-              <div dangerouslySetInnerHTML={{ __html: marked(recommendation) }} />
-            </div>
-          </div>
-        )}
-      </div>
+
+      <h2 className="text-2xl font-bold mb-2 mt-5">Maybe Something:</h2>
+
     </div>
   )
 }

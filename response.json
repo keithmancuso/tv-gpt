@@ -1,0 +1,24 @@
+{
+  "name": "TV Show Recommendation",
+  "description": "A specific recommendation for what to watch tonight",
+  "strict": true,
+  "schema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "description": "The title of the recommended TV show"
+      },
+      "app": {
+        "type": "string",
+        "description": "The streaming app which has the show"
+      },
+      "recommendationReason": {
+        "type": "string",
+        "description": "A short explanation for why this show is recommended"
+      }
+    },
+    "additionalProperties": false,
+    "required": ["title", "app", "recommendationReason"]
+  }
+}

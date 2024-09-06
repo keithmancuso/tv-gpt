@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import OpenAI from 'openai';
-import { fetchAllShows } from '@/app/lib/data';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -14,10 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const { threadId } = req.body;
-
-    const shows = await fetchAllShows();
-    const showsData = JSON.stringify(shows);
+    const { message, threadId } = req.body;
 
     let thread;
     if (threadId) {
@@ -28,7 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     await openai.beta.threads.messages.create(thread.id, {
       role: "user",
-      content: "Can you recommend a TV show for me to watch tonight? Here's my current watch list: " + showsData
+      content: message
     });
 
     const run = await openai.beta.threads.runs.create(thread.id, {
@@ -46,11 +42,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const messages = await openai.beta.threads.messages.list(thread.id);
     const assistantResponse = messages.data[0].content[0];
 
-    const recommendation = 'text' in assistantResponse ? assistantResponse.text.value : 'No recommendation available';
+    const reply = 'text' in assistantResponse ? assistantResponse.text.value : 'No text response available';
 
-    res.status(200).json({ recommendation, threadId: thread.id });
+    res.status(200).json({ reply, threadId: thread.id });
   } catch (error) {
     console.error('OpenAI API error:', error);
-    res.status(500).json({ error: 'Failed to get recommendation' });
+    res.status(500).json({ error: 'Failed to get AI response' });
   }
 }
