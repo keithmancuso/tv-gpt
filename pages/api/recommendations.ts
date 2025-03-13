@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import OpenAI from 'openai';
 import { z } from 'zod';
+import { zodResponseFormat } from "openai/helpers/zod";
+
 import { fetchAllShows } from '@/app/lib/data';
 
 const openai = new OpenAI({
@@ -26,9 +28,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
+  
 
   try {
     const { messages } = req.body;
@@ -45,13 +45,14 @@ export default async function handler(
     const completion = await openai.chat.completions.create({
       model: "gpt-4-1106-preview",
       messages: [systemMessage, ...validatedMessages] as Message[],
-      response_format: { type: "json_object" },
+      response_format: zodResponseFormat(RecommendationArray, "recommendations"),
     });
 
     const content = completion.choices[0].message.content || '{}';
     const parsedContent = JSON.parse(content);
 
-    const validatedResponse = RecommendationArray.parse(parsedContent.recommendations);
+    console.log(parsedContent);
+    const validatedResponse = RecommendationArray.parse(parsedContent);
     res.status(200).json(validatedResponse);
   } catch (error) {
     console.error('OpenAI API error:', error);

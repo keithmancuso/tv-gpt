@@ -5,7 +5,12 @@ import { fetchShows } from '@/app/lib/data';
 import { Input } from '@/components/ui/input';
 import Link from 'next/link';
 export default async function Home() {
-  const watchingShows = await fetchShows('Watching');
+  const response = await fetch(`https://localhost:3000/api/recommendations`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ messages: [{ role: 'user', content: 'Give me recommendations' }] }),
+  });
+  const recommendations = await response.json();
 
   return (
     <div className="mt-5">
@@ -20,7 +25,7 @@ export default async function Home() {
         align: "start"
       }}>
         <CarouselContent className="-ml-2">
-          {watchingShows.map((show, index) => (
+          {recommendations.map((show, index) => (
             <CarouselItem key={index} className="pl-2 basis-1/2">
               <Link href={`/show/${show.id}`} className="block">
                 <Card className='min-h-[16rem] py-1 px-2 hover:shadow-md transition-shadow'>
